@@ -67,27 +67,15 @@ namespace RabbitMQ.Producer
         }
 
         private void UpdateConnectionStatus()
-        {
-            string state = $"{(isConnectionOpen ? "" : "Not ")}Connected";
-            tsLblConnectionStatus.Text = $"Connection State: {state}";
-            AddLog($"Connection state is {state}");
+        { 
 
             groupBox2.Enabled = groupBox3.Enabled = groupBox4.Enabled = groupBox5.Enabled = isConnectionOpen;
         }
-        private void AddLog(string logStr)
-        {
-            logStr = $"[{DateTime.Now:dd.MM.yyyy HH:mm:ss}] - {logStr}";
-            txtLog.AppendText($"{logStr}\n");
-            txtLog.Text += Environment.NewLine;
-            // set the cursor to end
-            txtLog.SelectionStart = txtLog.Text.Length;
-            txtLog.ScrollToCaret();
-        }
+   
 
         private void btnDeclareExchange_Click(object sender, EventArgs e)
         {
-            channel.ExchangeDeclare(txtDeclareExchangeName.Text, cmbDeclareExchangeType.Text);
-            AddLog($"Exchange Created Name : {txtDeclareExchangeName.Text}, Type : {cmbDeclareExchangeType.Text}");
+            channel.ExchangeDeclare(txtDeclareExchangeName.Text, cmbDeclareExchangeType.Text); 
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -111,14 +99,12 @@ namespace RabbitMQ.Producer
             //durable :  in-memory mi yoksa fiziksel olarak mı saklanacağı belirlenir. Genel de RabbitMQ’da hız amcı ile ilgili queuelerin memory’de saklanması tercih edilse de sunucunun restart olması durumunda ilgili mesajların kaybolmasından dolayı da, hızdan ödün verilerek fiziksel olarak bir hard diskte saklanması tercih edilebilir.
             //exclusive : diğer connectionlar ile kullanılması izni belirler. bu bağlantı kapandığında silinir
             //autoDelete : Eğer queue deleted false olarak işaretlenmiş ise ve tüm consumerlar bunu kullanmayı bitirmiş ise ya da son consumer iptal edilmiş veya channel kapanmış ise silinmez
-            channel.QueueDeclare(txtDeclareQueueName.Text, durable: cbDurable.Checked, exclusive: cbExclusive.Checked, autoDelete: cbAutoDelete.Checked);
-            AddLog($"Queue Created Name : {txtDeclareQueueName.Text}");
+            channel.QueueDeclare(txtDeclareQueueName.Text, durable: cbDurable.Checked, exclusive: cbExclusive.Checked, autoDelete: cbAutoDelete.Checked); 
         }
 
         private void btnBindQueue_Click(object sender, EventArgs e)
         {
-            channel.QueueBind(txtDeclareQueueName.Text, txtDeclareExchangeName.Text, txtDeclareRoutingKey.Text);
-            AddLog($"Bind Queue Created");
+            channel.QueueBind(txtDeclareQueueName.Text, txtDeclareExchangeName.Text, txtDeclareRoutingKey.Text); 
         }
 
         private void WriteDataToExchange(string ExchangeName, string RoutingKey, object data)
